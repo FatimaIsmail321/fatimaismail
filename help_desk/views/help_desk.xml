@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_teams_tree" model="ir.ui.view">
+        <field name="name">hd.team.tree</field>
+        <field name="model">hd.team</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+               
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_teams_form" model="ir.ui.view">
+        <field name="name">hd.team.form</field>
+        <field name="model">hd.team</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        
+                    </group>
+                    
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    
+
+    <record id="action_teams" model="ir.actions.act_window">
+        <field name="name">Teams</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hd.team</field>
+        <field name="view_mode">tree,form</field>            
+    </record>
+
+    <menuitem id="menu_helpdesk_root"
+              name="Help Desk"
+              sequence="40"/>
+
+    <menuitem id="menu_teams_root"
+              name="Configuration"
+              parent="menu_helpdesk_root"
+              sequence="41"/>
+
+    <menuitem id="menu_teams_sub_root"
+              name="Teams"
+              parent="menu_teams_root"
+              action="action_teams"
+              sequence="42" groups="help_desk.help_desk_manager_group"/>
+
+
+<!-- zzzz -->
+
+
+<record id="view_tage_tree" model="ir.ui.view">
+        <field name="name">tags.tags.tree</field>
+        <field name="model">tags.tags</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="tage"/>
+               
+            </tree>
+        </field>
+    </record>
+
+ <record id="view_tags_form" model="ir.ui.view">
+        <field name="name">tags.tags.form</field>
+        <field name="model">tags.tags</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="tage"/>
+                        </group>
+                        
+                    </group>
+                    
+                </sheet>
+                <!-- <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div> -->
+            </form>
+        </field>
+    </record>
+
+     <record id="action_tage" model="ir.actions.act_window">
+        <field name="name">Tage</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">tags.tags</field>
+        <field name="view_mode">tree,form</field>            
+    </record>
+
+
+    <menuitem id="menu_tags_root"
+              name="Tags"
+              parent="menu_teams_root"
+              action="action_tage"
+              sequence="45" groups="help_desk.help_desk_manager_group"/>
+
+
+<!-- zzz -->
+
+
+
+
+  <record id="view_ticket_kanban" model="ir.ui.view">
+        <field name="name">hd.ticket.kanban</field>
+        <field name="model">hd.ticket</field>
+        <field name="arch" type="xml">
+            <kanban default_order="id asc">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="tecked"/>
+                <field name="date_time"/>
+                <field name="note"/>
+                <field name="Priority"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <ul>
+                                    <li>
+                                        ID: <field name="tecked"/>
+                                    </li>
+                                    <li>
+                                        Name: <field name="name"/>
+                                    </li>
+                                    <li>
+                                        Timestamp: <field name="date_time"/>
+                                    </li>
+                                    <li>
+                                        Description: <field name="note"/>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+    <record id="view_ticket_tree" model="ir.ui.view">
+        <field name="name">hd.ticket.tree</field>
+        <field name="model">hd.ticket</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+               
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_ticket_form" model="ir.ui.view">
+        <field name="name">hd.ticket.form</field>
+        <field name="model">hd.ticket</field>
+        <field name="arch" type="xml">
+            <form>
+                 <header>
+                 <button id="button_confirm" name="action_confirm" string="Confirm" class="btn-primary" states="new"
+    
+                            type="object"/>
+                    <button id="button_done" name="action_done" string="Mark As Done" class="btn-primary" states="solved"
+                            type="object"/>
+                    <button id="button_draft" name="action_draft" string="Set To Draft" class="btn-primary"
+                            states="cancel" type="object"/>
+                    <button id="button_cancel" name="action_cancel" string="Cancel" states="new,in_Progress,solved"
+                            confirm="Are you sure that you need to cancel ?"
+                            type="object"/>
+                   
+                    <field name="state" widget="statusbar" statusbar_visible="new,in_Progress,solved"/>
+                </header>
+                <sheet>
+               
+                <div class="oe_title">
+                        <h1>
+                            <field name="tecked" readonly="1"/>
+                        </h1>
+                    </div>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="date_time"/>
+                            <field name="note"/>
+                            <field name="team_id"/>
+                            <field name="assigned_id"/>
+                            <field name="Priority"/>
+                            <field name="partner_id"/>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="tax_ids" widget="many2many_tags"/>
+                            <field name="hosting_type"/>
+                            <field name="resolution"/>    
+                        </group>                   
+                </sheet>
+               <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    
+
+    <record id="action_ticket" model="ir.actions.act_window">
+        <field name="name">Tickets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hd.ticket</field>
+        <field name="view_mode">tree,kanban,form</field> 
+        <field name="domain">[('assigned_id', '=', 'user_id')]</field>           
+    </record>
+
+
+    
+
+    <menuitem id="menu_ticket_sub_root"
+              name="Tickets"
+              parent="menu_helpdesk_root" 
+              sequence="43"/>
+
+
+    <menuitem id="menu_ticket_sub_mytekit_root"
+              name="My Tickets"
+              parent="menu_ticket_sub_root" 
+              action="action_ticket"
+              sequence="44"/>
+
+    
+
+    <record id="record_add_button" model="ir.ui.view">
+            <field name="name">Tickets</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                 <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="object" name="get_ticket">   
+                        <field string="Tickets" name="ticket_count" widget="statinfo"/>
+                    </button>
+                </div>
+            </field>
+        </record>
+</odoo>
